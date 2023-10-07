@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algorithms Visualizer</title>
+    <title>Sorting Algorithm Visualizer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,9 +13,9 @@
             <select id="algorithm">
                 <option value="bubbleSort">Bubble Sort</option>
             </select>
-            <label for="inputArray">Enter Numbers (separated by space):</label>
-            <input type="text" id="inputArray" placeholder="e.g. 5 9 3 7 1">
-            <button type="submit">Visualize Sorting</button>
+            <label for="inputArray" class="mt-4">Enter Numbers (separated by space):</label>
+            <input type="text" id="inputArray">
+            <button type="submit" onclick="visualizeSorting()">Visualize Sorting</button>
         </div>
         <div class="output-section">
             <h2>Output:</h2>
@@ -23,5 +23,6 @@
         </div>
     </div>
 
+    <script src="script.js"></script>
 </body>
 </html>
