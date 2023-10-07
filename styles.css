@@ -1,62 +1,93 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    background-color: #f0f4f8;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
     margin: 0;
-    background-color: #f7fafc;
-    font-family: Arial, sans-serif;
+    padding: 0;
 }
 
 .container {
-    max-width: 100%;
-    width: 80%;
-    padding: 20px;
+    max-width: 960px;
     margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #3498db;
 }
 
 .input-section,
 .output-section {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
     background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     padding: 20px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
 }
 
 .input-section label,
 .output-section h2 {
-    color: #4a5568;
     font-size: 18px;
-    display: block;
+    margin-bottom: 10px;
+    color: #3498db;
 }
 
 .input-section input,
 .input-section select,
 .input-section button {
-    width: 100%;
-    padding: 10px;
+    width: calc(100% - 24px);
+    padding: 12px;
     margin-top: 8px;
-    margin-bottom: 12px;
-    border: 1px solid #cbd5e0;
-    border-radius: 4px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
 }
 
 .input-section button {
-    background-color: #3490dc;
-    color: #ffffff;
+    background-color: #3498db;
+    color: #fff;
     cursor: pointer;
+    border: none;
     transition: background-color 0.3s ease;
 }
 
 .input-section button:hover {
-    background-color: #2779bd;
+    background-color: #2ecc71;
 }
 
-@media (min-width: 768px) {
-    .container {
-        width: 60%;
+.output-section div {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.step {
+    padding: 6px;
+}
+.initial-list,
+.step.final-step{
+    background-color: #cc2e2e;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 8px 0;
+}
+.step.final-step {
+    background-color: #2ecc71;
+}
+
+@media (max-width: 768px) {
+    .input-section,
+    .output-section {
+        width: 100%;
     }
 }
