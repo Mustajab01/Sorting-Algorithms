@@ -26,129 +26,121 @@ function displaySortingSteps(steps, outputDiv) {
 
     steps.forEach((step, index) => {
         const stepNumber = formatStepNumber(index);
-        const stepHTML = `<div class="step${index === steps.length - 1 ? ' final-step' : ''}">Step ${stepNumber}: ${step.join(" ")}</div>`;
+        let stepDescription = `<strong>Step ${stepNumber}: </strong>`;
+        if (step.comparison) {
+            const [left, right] = step.comparison;
+            stepDescription += `Comparing elements at indices ${left} and ${right}. `;
+            if (step.swapped) {
+                stepDescription += `Swapping elements ${left} and ${right}. `;
+            } else {
+                stepDescription += `No swap needed. `;
+            }
+        } else if (step.selected !== undefined) {
+            stepDescription += `Selecting element at index ${step.selected} as the minimum. `;
+        } else if (step.keyIndex !== undefined) {
+            stepDescription += `Inserting element ${unsortedArray[step.keyIndex]} at index ${step.insertionIndex}. `;
+        } else if (step.pivotIndex !== undefined) {
+            stepDescription += `Choosing pivot element ${unsortedArray[step.pivotIndex]} at index ${step.pivotIndex}. `;
+        }
+        const stepHTML = `<div class="step${index === steps.length - 1 ? ' final-step' : ''}">${stepDescription}<br><span class="steps-array">${step.array.join(" ")}</span></div>`;
         outputDiv.innerHTML += stepHTML;
     });
 }
 
 
 
+
 const sortingAlgorithms = {
-    bubbleSort: function (arr) {
+    bubbleSort: function(arr) {
         const steps = [];
         let n = arr.length;
         let swapped;
-
         do {
             swapped = false;
-
             for (let i = 0; i < n - 1; i++) {
                 if (arr[i] > arr[i + 1]) {
-                    // Swap arr[i] and arr[i + 1]
                     let temp = arr[i];
                     arr[i] = arr[i + 1];
                     arr[i + 1] = temp;
                     swapped = true;
-                    // Push a copy of the current array to steps for visualization
-                    steps.push([...arr]);
+                    steps.push({ array: [...arr], comparison: [i, i + 1], swapped: true });
+                } else {
+                    steps.push({ array: [...arr], comparison: [i, i + 1], swapped: false });
                 }
             }
-
-            n--; // Reduce the array size as the largest element is correctly placed
+            n--;
         } while (swapped);
-
         return steps;
     },
-    selectionSort: function (arr) {
+    selectionSort: function(arr) {
         const steps = [];
         let n = arr.length;
-
         for (let i = 0; i < n - 1; i++) {
-            // Find the minimum element in the unsorted part of the array
             let minIndex = i;
             for (let j = i + 1; j < n; j++) {
                 if (arr[j] < arr[minIndex]) {
                     minIndex = j;
                 }
             }
-
-            // Swap the found minimum element with the first element
             if (minIndex !== i) {
                 let temp = arr[i];
                 arr[i] = arr[minIndex];
                 arr[minIndex] = temp;
-                // Push a copy of the current array to steps for visualization
-                steps.push([...arr]);
             }
+            steps.push({ array: [...arr], selected: i, minIndex: minIndex });
         }
-
         return steps;
-    },
-    insertionSort: function (arr) {
+    }
+    ,
+    insertionSort: function(arr) {
         const steps = [];
         let n = arr.length;
-
         for (let i = 1; i < n; ++i) {
             let key = arr[i];
             let j = i - 1;
-
-            // Move elements of arr[0..i-1], that are greater than key, to one position ahead of their current position
             while (j >= 0 && arr[j] > key) {
                 arr[j + 1] = arr[j];
                 j = j - 1;
             }
-
             arr[j + 1] = key;
-            // Push a copy of the current array to steps for visualization
-            steps.push([...arr]);
+            steps.push({ array: [...arr], keyIndex: i, insertionIndex: j + 1 });
         }
-
         return steps;
-    },
+    }
+    ,
     quickSort: function(arr) {
         const steps = [];
-    
         function sort(start, end) {
             if (start >= end) {
                 return;
             }
-    
             const pivotIndex = partition(start, end);
             sort(start, pivotIndex - 1);
             sort(pivotIndex + 1, end);
         }
-    
         function partition(start, end) {
-            const pivotValue = arr[start]; // Use the first element as the pivot
+            const pivotValue = arr[start];
             let left = start + 1;
             let right = end;
-    
             while (left <= right) {
-                // Move left pointer to the right until finding an element greater than the pivot
                 while (left <= right && arr[left] <= pivotValue) {
                     left++;
                 }
-                // Move right pointer to the left until finding an element smaller than the pivot
                 while (left <= right && arr[right] > pivotValue) {
                     right--;
                 }
-                // Swap elements at left and right pointers
                 if (left < right) {
                     [arr[left], arr[right]] = [arr[right], arr[left]];
                 }
             }
-    
-            // Swap pivot element with element at right pointer
             [arr[start], arr[right]] = [arr[right], arr[start]];
-    
-            steps.push([...arr]); // Push a copy of the current array to steps for visualization
-    
+            steps.push({ array: [...arr], pivotIndex: right });
             return right;
         }
-    
         sort(0, arr.length - 1);
         return steps;
     }
+    
     
 
 };
