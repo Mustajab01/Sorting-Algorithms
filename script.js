@@ -31,12 +31,12 @@ function displaySortingSteps(steps, outputDiv) {
             const [left, right] = step.comparison;
             stepDescription += `Comparing elements at indices ${left} and ${right}. `;
             if (step.swapped) {
-                stepDescription += `Swapping elements ${left} and ${right}. `;
+                stepDescription += `Swapping elements at index${left} and ${right}. `;
             } else {
                 stepDescription += `No swap needed. `;
             }
         } else if (step.selected !== undefined) {
-            stepDescription += `Selecting element at index ${step.selected} as the minimum. `;
+            stepDescription += `Selecting element at index ${step.minIndex} as the minimum. `;
         } else if (step.keyIndex !== undefined) {
             stepDescription += `Inserting element ${unsortedArray[step.keyIndex]} at index ${step.insertionIndex}. `;
         } else if (step.pivotIndex !== undefined) {
