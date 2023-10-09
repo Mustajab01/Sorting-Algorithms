@@ -104,6 +104,51 @@ const sortingAlgorithms = {
         }
 
         return steps;
+    },
+    quickSort: function(arr) {
+        const steps = [];
+    
+        function sort(start, end) {
+            if (start >= end) {
+                return;
+            }
+    
+            const pivotIndex = partition(start, end);
+            sort(start, pivotIndex - 1);
+            sort(pivotIndex + 1, end);
+        }
+    
+        function partition(start, end) {
+            const pivotValue = arr[start]; // Use the first element as the pivot
+            let left = start + 1;
+            let right = end;
+    
+            while (left <= right) {
+                // Move left pointer to the right until finding an element greater than the pivot
+                while (left <= right && arr[left] <= pivotValue) {
+                    left++;
+                }
+                // Move right pointer to the left until finding an element smaller than the pivot
+                while (left <= right && arr[right] > pivotValue) {
+                    right--;
+                }
+                // Swap elements at left and right pointers
+                if (left < right) {
+                    [arr[left], arr[right]] = [arr[right], arr[left]];
+                }
+            }
+    
+            // Swap pivot element with element at right pointer
+            [arr[start], arr[right]] = [arr[right], arr[start]];
+    
+            steps.push([...arr]); // Push a copy of the current array to steps for visualization
+    
+            return right;
+        }
+    
+        sort(0, arr.length - 1);
+        return steps;
     }
+    
 
 };
